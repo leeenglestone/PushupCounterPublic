@@ -13,8 +13,6 @@
             height: 100%;
         }
 
-        
-
         .wrapper {
             padding-top: 10px;
             text-align: center;
@@ -24,7 +22,6 @@
             -background-color: #222D3A;
             border-radius: 5px;
             box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.3);
-
         }
 
         .flex-container {
@@ -61,9 +58,7 @@
         <div class="top">
             <h1>PushupCounter.com</h1>
             <h2>Goal: 2022 Pushups in January for Alzheimer's Society</h2>
-
             <p>You can donate on <a href="https://www.facebook.com/donate/677223329934271/">my Give Panel page</a>.</p>
-
             <br />
         </div>
 
@@ -80,17 +75,17 @@
 
         <div class="">
             <h3>Total Pushups</h3>
-            <span>0 / 2022</span>
+            <span id="spanTotalPushups">0 / 2022</span>
         </div>
 
         <div class="">
             <h3>% Complete</h3>
-            <span>0%</span>
+            <span id="spanPercentComplete">0%</span>
         </div>
 
         <div class="">
             <h3>Daily Average</h3>
-            <span>0.00</span>
+            <span id="spanAveragePushups">0.00</span>
         </div>
 
         <div class="">
@@ -102,7 +97,6 @@
 
     <div class="wrapper">
         <canvas id="myChart" style="width:100%;"></canvas>
-
     </div>
 
     <script>
@@ -121,6 +115,32 @@
         var xValues = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th", "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st"];
         var barColors = "orange";
 
+        var set1Data = [25, 20];
+        var set2Data = [25, 20];
+        var set3Data = [25, 20];
+        var set4Data = [20, 20];
+        var set5Data = [5,  20];
+
+        // Calculate and show total pushups
+        const totalPushups 
+        = set1Data.reduce((a, b) => a + b)
+        +  set2Data.reduce((a, b) => a + b)
+        +  set3Data.reduce((a, b) => a + b)
+        +  set4Data.reduce((a, b) => a + b)
+        +  set5Data.reduce((a, b) => a + b);
+
+        document.getElementById('spanTotalPushups').innerText = totalPushups + ' / 2022';
+
+        // Calculate and show ave pushups per day
+        const averagePushups = totalPushups / set1Data.length;
+
+        document.getElementById('spanAveragePushups').innerText = averagePushups + ' / day';
+
+        // Calculate percentage complete
+        const percentComplete = (totalPushups / 2022) * 100;
+        document.getElementById('spanPercentComplete').innerText = percentComplete.toFixed(2) + '%';
+
+
         const myChart = new Chart(ctx, {
             type: "bar",
             data: {
@@ -129,7 +149,7 @@
                     {
                         label: 'Set 1',
                         backgroundColor: CHART_COLORS.red,
-                        data: [25, 20, 0, 0, 0],
+                        data: set1Data,
                         stack: 'combined',
                         type: 'bar',
                         order: 2
@@ -137,7 +157,7 @@
                     {
                         label: 'Set 2',
                         backgroundColor: CHART_COLORS.blue,
-                        data: [25, 20, 0, 0, 0],
+                        data: set2Data,
                         stack: 'combined',
                         type: 'bar',
                         order: 2
@@ -145,7 +165,7 @@
                     {
                         label: 'Set 3',
                         backgroundColor: CHART_COLORS.green,
-                        data: [25, 20, 0, 0, 0],
+                        data: set3Data,
                         stack: 'combined',
                         type: 'bar',
                         order: 2
@@ -153,7 +173,7 @@
                     {
                         label: 'Set 4',
                         backgroundColor: CHART_COLORS.yellow,
-                        data: [20, 20, 0, 0, 0],
+                        data: set4Data,
                         stack: 'combined',
                         type: 'bar',
                         order: 2
@@ -161,7 +181,7 @@
                     {
                         label: 'Set 5',
                         backgroundColor: CHART_COLORS.orange,
-                        data: [5, 20, 0, 0, 0],
+                        data: set5Data,
                         stack: 'combined',
                         type: 'bar',
                         order: 2
