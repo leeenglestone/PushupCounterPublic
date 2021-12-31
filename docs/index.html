@@ -41,7 +41,6 @@
         .flex-container {
             display: flex;
             flex-wrap: wrap;
-
             justify-content: center;
             align-items: center;
         }
@@ -49,8 +48,6 @@
         .flex-container>div.panel {
             margin: 20px;
             padding: 20px;
-            /* height: 150px; */
-            /* font-size: 30px; */
             background-color: #fff;
             -background-color: #222D3A;
             border-radius: 5px;
@@ -58,18 +55,15 @@
             text-align: center;
         }
 
-        .top {}
-
         .info {
             font-size: 2em;
         }
 
-
         @media (min-width: 320px) and (max-width: 480px) {
-            .top  {
-                height:100% !important;
-                    margin:10px !important;
-                    padding:10px !important;
+            .top {
+                height: 100% !important;
+                margin: 10px !important;
+                padding: 10px !important;
             }
 
             .flex-container>div.panel {
@@ -95,7 +89,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-2PRGWBC3BL');
     </script>
 
@@ -152,9 +145,15 @@
         <p>PushupCounter.com will eventually be the best way to socially share pushup counts for social purposes.</p>
         <p>Planned features include the ability to create/invite different groups of friends, challenge each other and
             view your group(s) leaderboards.</p>
-        <p>Until then, I thought I would use the site to share <a href="https://www.facebook.com/donate/677223329934271/">my personal pushup challenge</a> progress.</p>
+        <p>Until then, I thought I would use the site to share <a
+                href="https://www.facebook.com/donate/677223329934271/">my personal pushup challenge</a> progress.</p>
         <p>Follow me on Twitter at <a href="http://www.twitter.com/leeenglestone">@LeeEnglestone</a> to follow my
             progress.</p>
+        <br />
+    </div>
+
+    <div class="wrapper">
+        <p><strong>Disclaimer:</strong> Always get medical advice before starting any exercise regime.</p>
         <br />
     </div>
 
@@ -174,11 +173,11 @@
         var xValues = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th", "9th", "10th", "11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th", "20th", "21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st"];
         var barColors = "orange";
 
-        var set1Data = [25, 20];
-        var set2Data = [25, 20];
-        var set3Data = [25, 20];
-        var set4Data = [20, 20];
-        var set5Data = [5, 20];
+        var set1Data = [0];
+        var set2Data = [0];
+        var set3Data = [0];
+        var set4Data = [0]
+        var set5Data = [0];
 
         // Calculate and show total pushups
         const totalPushups
@@ -199,6 +198,20 @@
         const percentComplete = (totalPushups / 2022) * 100;
         document.getElementById('spanPercentComplete').innerText = percentComplete.toFixed(2) + '%';
 
+        // Calculate daily totals
+        let dailyPushups = new Array(31);
+
+        // For each day we have data for
+        for (let i = 0; i < set1Data.length; i++) {
+            dailyPushups[i] = set1Data[i] + set2Data[i] + set3Data[i] + set4Data[i] + set5Data[i];
+        }
+
+        let dailyTotalPushups = new Array(31);
+        dailyTotalPushups[0] = dailyPushups[0];
+        for(let i = 1; i < set1Data.length; i++)
+        {
+            dailyTotalPushups[i] = dailyTotalPushups[i-1] + dailyPushups[i];
+        }
 
         const myChart = new Chart(ctx, {
             type: "bar",
@@ -244,20 +257,17 @@
                         stack: 'combined',
                         type: 'bar',
                         order: 2
-
                     },
                     {
                         label: 'Total',
                         yAxisID: "y1",
                         backgroundColor: 'red',
-                        data: [100, 200, 0, 0, 0],
+                        data: dailyTotalPushups,
                         type: 'line',
                         order: 1
                     }
-
                 ]
             },
-
             options: {
                 responsive: true,
                 scales: {
@@ -284,8 +294,6 @@
                             text: 'January'
                         }
                     }
-
-
                 }
             }
         });
